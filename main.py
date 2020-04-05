@@ -9,19 +9,10 @@ app = FastAPI()
 def root():
     return {"message": "Hello World during the coronavirus pandemic!"}
 
-@app.get("/GET")
-def root(method):
-    return {"method": 'GET'}
 
-@app.post("/POST")
+@app.state("/{method}")
 def root(method):
-    return {"method": 'POST'}
+    return {"method": f'{method}'}
 
-@app.put("/PUT")
-def root(method):
-    return {"method": 'PUT'}
 
-@app.delete("/DELETE")
-def root(method):
-    return {"method": "DELETE"}
 
