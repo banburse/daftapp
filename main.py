@@ -10,9 +10,22 @@ def root():
     return {"message": "Hello World during the coronavirus pandemic!"}
 
 
-@app.state("/{method}")
+@app.get("/method")
 def root(method):
-    return {"method": f'{method}'}
+    return {"method": "GET"}
+
+@app.post("/method")
+def root(method):
+    return {"method": "POST"}
+
+@app.put("/method")
+def root(method):
+    return {"method": "PUT"}
+
+@app.delete("/method")
+def root(method):
+    return {"method": "DELETE"}
+
 
 
 
