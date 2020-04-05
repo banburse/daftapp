@@ -5,12 +5,11 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-i = 0
 
 @app.get("/")
 def root():
-    return {"message": "Zuzia to lamus"}
-    ##return {"message": "Hello World during the coronavirus pandemic!"}
+    ##return {"message": "Zuzia to lamus"}
+    return {"message": "Hello World during the coronavirus pandemic!"}
 
 
 @app.get("/method")
