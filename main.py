@@ -8,8 +8,8 @@ app = FastAPI()
 
 @app.get("/")
 def root():
-    ##return {"message": "Zuzia to lamus"}
-    return {"message": "Hello World during the coronavirus pandemic!"}
+    return {"message": "Zuzia to lamus"}
+    ##return {"message": "Hello World during the coronavirus pandemic!"}
 
 
 @app.get("/method")
@@ -29,11 +29,11 @@ def metoda():
     return{"method": "DELETE"}
 
 @app.post("/patient")
-def create_patient(mydict: str):
+def create_patient(name, surname):
     if i>=1:
         i+=1
     else:
         i = 1
-    return {"id": i, "patient": f'{mydict}'}
+    return {"id": i, "patient": {"name": f"{name}", "surename": f"{surname}"}}
 
 
