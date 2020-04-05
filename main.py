@@ -9,25 +9,25 @@ i = 0
 
 @app.get("/")
 def root():
-    ##return {"message": "Zuzia to lamus"}
-    return {"message": "Hello World during the coronavirus pandemic!"}
+    return {"message": "Zuzia to lamus"}
+    ##return {"message": "Hello World during the coronavirus pandemic!"}
 
 
 @app.get("/method")
-def metoda(method):
-    return {"method": "GET"}
+def metoda():
+    return{"method": "GET"}
 
 @app.post("/method")
-def metoda(method):
-    return {"method": "POST"}
+def metoda():
+    return{"method": "POST"}
 
 @app.put("/method")
-def metoda(method):
-    return {"method": "PUT"}
+def metoda():
+    return{"method": "PUT"}
 
 @app.delete("/method")
-def metoda(method):
-    return {"method": "DELETE"}
+def metoda():
+    return{"method": "DELETE"}
 
 
 @app.post("/patient")
