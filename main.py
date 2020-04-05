@@ -5,6 +5,8 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
+i = 0
+
 @app.get("/")
 def root():
     return {"message": "Zuzia to lamus"}
@@ -12,19 +14,19 @@ def root():
 
 
 @app.get("/method")
-def root(method):
+def metoda(method):
     return {"method": "GET"}
 
 @app.post("/method")
-def root(method):
+def metoda(method):
     return {"method": "POST"}
 
 @app.put("/method")
-def root(method):
+def metoda(method):
     return {"method": "PUT"}
 
 @app.delete("/method")
-def root(method):
+def metoda(method):
     return {"method": "DELETE"}
 
 
