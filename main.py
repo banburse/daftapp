@@ -16,7 +16,8 @@ app = FastAPI()
 @app.get("/")
 def root():
     ##return {"message": "Zuzia to lamus"}
-    return {"message": "Hello World during the coronavirus pandemic!"}
+    ##return {"message": "Hello World during the coronavirus pandemic!"}
+    return {"message": "3mess"}
 
 
 @app.get("/method")
@@ -40,12 +41,12 @@ def create_patient(name, surname):
     i+=1
     names.append(name)
     surnames.append(surname)
-    return {"id": i, "patient": {"name": f"{names(i-1)}", "surename": f"{surname(i-1)}"}}
+    return {"id": i, "patient": {"name": f"{names(i)}", "surename": f"{surname(i)}"}}
 
 @app.get("/patient/{id}")
 def patient(id):
     names.append(name)
     surnames.append(surname)
-    return {"name": f"{names(i-1)}", "surename": f"{surname(i-1)}"}
+    return {"name": f"{names(i)}", "surename": f"{surname(i)}"}
 
 
