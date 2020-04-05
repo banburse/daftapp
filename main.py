@@ -4,20 +4,20 @@
 from fastapi import FastAPI
 
 
-i = -1
-names = []
-surnames = []
 
 
 app = FastAPI()
 
-
+app.counter = -1
+app.counterlist = []
+app.names = []
+app.surnames = []
 
 @app.get("/")
 def root():
-    ##return {"message": "Zuzia to lamus"}
+    return {"message": "Zuzia to lamus"}
     ##return {"message": "Hello World during the coronavirus pandemic!"}
-    return {"message": "3mess"}
+    ##return {"message": "3mess"}
 
 
 @app.get("/method")
@@ -38,13 +38,18 @@ def metoda():
 
 @app.post("/patient")
 def create_patient(name, surname):
-    i+=1
-    names.append(name)
-    surnames.append(surname)
+    app.counter += 1
+    app.names.append(name)
+    app.surnames.append(surname)
+    app.counterlist.append(app.counter)
     return {"id": i, "patient": {"name": f"{names(i)}", "surename": f"{surname(i)}"}}
 
 @app.get("/patient/{id}")
 def patient(id):
-    return {"name": f"{names(i)}", "surename": f"{surname(i)}"}
+    if id is in app.conterlist:
+        return {"name": f"{names(i)}", "surename": f"{surname(i)}"}
+    else:
+        raise OSError("Response " + str(response.status_code)
+                  + ": " + response.content)
 
 
