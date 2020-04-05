@@ -45,8 +45,6 @@ def create_patient(name, surname):
 
 @app.get("/patient/{id}")
 def patient(id):
-    names.append(name)
-    surnames.append(surname)
     return {"name": f"{names(i)}", "surename": f"{surname(i)}"}
 
 
