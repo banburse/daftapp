@@ -28,5 +28,9 @@ def root(method):
     return {"method": "DELETE"}
 
 
+@app.post("/patient")
+def create_patient(mydict):
+    i += 1
+    return {"id": i, "patient": f'{mydict}'}
 
 
