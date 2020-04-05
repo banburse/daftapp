@@ -49,7 +49,6 @@ def patient(id):
     if id is in app.conterlist:
         return {"name": f"{names(i)}", "surename": f"{surname(i)}"}
     else:
-        raise OSError("Response " + str(response.status_code)
-                  + ": " + response.content)
+        return {"fail": "fail"}
 
 
