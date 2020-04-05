@@ -31,7 +31,7 @@ def metoda():
 
 @app.post("/patient")
 def create_patient(mydict: str):
-    if i != 1:
+    if i>=1:
         i+=1
     else:
         i = 1
