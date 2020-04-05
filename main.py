@@ -4,7 +4,7 @@
 from fastapi import FastAPI
 
 
-i = 0
+i = -1
 names = []
 surnames = []
 
