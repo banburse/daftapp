@@ -1,22 +1,30 @@
 
 # main.py
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 
-from fastapi import FastAPI
 
 
 
 
 app = FastAPI()
 
-app.counter = -1
-app.counterlist = []
-app.names = []
-app.surnames = []
+app.counter = 0
+
+class PatientRq(BaseModel):
+    name: str
+    surename: str
+
+class PatientResp(BaseModel):
+    id: str
+    patient: dict
+
+
 
 @app.get("/")
 def root():
-    return {"message": "Zuzia to lamus"}
-    ##return {"message": "Hello World during the coronavirus pandemic!"}
+    ##return {"message": "Zuzia to lamus"}
+    return {"message": "Hello World during the coronavirus pandemic!"}
     ##return {"message": "3mess"}
 
 
@@ -36,19 +44,19 @@ def metoda():
 def metoda():
     return{"method": "DELETE"}
 
-@app.post("/patient")
-def create_patient(name, surname):
-    app.counter += 1
-    app.names.append(name)
-    app.surnames.append(surname)
-    app.counterlist.append(app.counter)
-    return {"id": i, "patient": {"name": f"{names(i)}", "surename": f"{surname(i)}"}}
+@app.get('/num/{p}')
+def counter(p):
+    return str(p)
 
-@app.get("/patient/{id}")
-def patient(id):
-    if id is in app.conterlist:
-        return {"name": f"{names(i)}", "surename": f"{surname(i)}"}
-    else:
-        return {"fail": "fail"}
+@app.post("/patient")
+def create_patient(rq: PatientRq):
+    app.counter += 1
+    return PatientResp(id=str(app.counter), patient=rq.dict())
+
+@app.get("/patient/{pk}")
+def patient_finder(pk):
+    if int(pk) > app.counter:
+        raise HTTPException(status_code=204, detail="No content")
+    return PatientRq(name="NAME", surename="SURENAME")
 
 
