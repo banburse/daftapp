@@ -1,34 +1,48 @@
-from fastapi import FastAPI, Request, Depends, HTTPException
-from fastapi.responses import HTMLResponse
-from pydantic import BaseModel
-from fastapi.templating import Jinja2Templates
+from _sha256 import sha256
+
+import uvicorn
+from typing import Dict
+
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
-
-
-fake_database = {"trudnY": "PaC13Nt"}
-
-class LoginModel(BaseModel):
-    username: str
-    password: str
+from pydantic import BaseModel
+from fastapi import FastAPI, Request, Response, status, Depends, HTTPException
+from starlette.responses import RedirectResponse, JSONResponse
+from fastapi.templating import Jinja2Templates
 
 
 app = FastAPI()
-security = HTTPBasic()
+app.counter: int = 0
 templates = Jinja2Templates(directory="templates")
+app.storage: Dict[int, Patient] = {}
+app.tokens = []
+
+security = HTTPBasic()
+app.secret_key = "3586551867030721809738080201689944348810193121742430128090228167"
+
+
+def check_login(credentials: HTTPBasicCredentials = Depends(security)):
+    correct_username = secrets.compare_digest(credentials.username, "trudnY")
+    correct_password = secrets.compare_digest(credentials.password, "PaC13Nt")
+    if not (correct_username and correct_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+    return credentials.username + ":" + credentials.password
 
 
 
-@app.get("/users/me")
-def read_user(credentials: HTTPBasicCredentials= Depends(security)):
-    return {"username": credentials.username, "password": credentials.password}
-
-@app.get("/login")
-def getlogin():
-    return templates.TemplateResponse("loginpage.html")
+@app.api_route(path="/welcome", methods=["GET"])
+def welcome(request: Request, auth: str = Depends(check_login)):
+    return templates.TemplateResponse("greeting.html", {"request": request, "user": auth.split(':', 1)[0]})
 
 @app.post("/login")
-def postlogin(user: LoginModel):
-    if user.username == "trudnY" and user.password == "PaC13Nt":
-        return True
-    else:
-        raise HTTPException(status_code=401, detail="No content")
+async def login(response: Response, login_pass: str = Depends(check_login)):
+    response.headers["Location"] = "/welcome"
+    response.status_code = status.HTTP_302_FOUND
+    secret_token = sha256(bytes(f"{login_pass.split(':', 1)[0]}{login_pass.split(':', 1)[1]}{app.secret_key}",
+                                encoding='utf8')).hexdigest()
+    app.tokens += secret_token
+    response.set_cookie(key="session_token", value=secret_token)
+    return response
