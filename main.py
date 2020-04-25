@@ -35,13 +35,7 @@ def some_method():
     return {"message": "3mess"}
 
 
-@app.post("/login")
-def logowanie():
-    <form action="/login" method="POST">
-    <input name="login" placeholder="Your login" type="text" >
-    <input name="password" placeholder="Your password" type="password">
-    <button type="button"> login </button>
-    </form>
+
 
 
 @app.get("/method")
