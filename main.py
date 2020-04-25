@@ -1,14 +1,14 @@
 
 # main.py
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
-
+from fastapi.templating import Jinja2Templates
 
 
 
 
 app = FastAPI()
-
+templates = Jinja2Templates(directory="templates")
 app.counter = 0
 
 class PatientRq(BaseModel):
@@ -20,6 +20,11 @@ class PatientResp(BaseModel):
     patient: dict
 
 
+        
+        
+@app.get("/login")        
+async def read_item(request: Request, id: str):
+    return templates.TemplateResponse("login.html", {"request": request, "id": id})
 
 @app.get("/")
 def root():
