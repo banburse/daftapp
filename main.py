@@ -2,6 +2,7 @@
 # main.py
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from requests.auth import HTTPBasicAuth
 
 
 
@@ -32,6 +33,11 @@ def some_method():
     ##return {"message": "Zuzia to lamus"}
     ##return {"message": "Hello World during the coronavirus pandemic!"}
     return {"message": "3mess"}
+
+
+@app.post("/login")
+def logowanie():
+    requests.get('https://daftapp.herokuapp.com/login', auth=HTTPBasicAuth('user', 'pass'))
 
 
 @app.get("/method")
