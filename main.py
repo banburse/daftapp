@@ -37,7 +37,11 @@ def some_method():
 
 @app.post("/login")
 def logowanie():
-    requests.get('https://daftapp.herokuapp.com/login', auth=HTTPBasicAuth('user', 'pass'))
+    <form action="/login" method="POST">
+    <input name="login" placeholder="Your login" type="text" >
+    <input name="password" placeholder="Your password" type="password">
+    <button type="button"> login </button>
+    </form>
 
 
 @app.get("/method")
