@@ -26,6 +26,12 @@ def root():
     ##return {"message": "Zuzia to lamus"}
     return {"message": "Hello World during the coronavirus pandemic!"}
     ##return {"message": "3mess"}
+    
+@app.get("/welcome")
+def some_method():
+    ##return {"message": "Zuzia to lamus"}
+    ##return {"message": "Hello World during the coronavirus pandemic!"}
+    return {"message": "3mess"}
 
 
 @app.get("/method")
