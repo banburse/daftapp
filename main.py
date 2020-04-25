@@ -21,10 +21,6 @@ class PatientResp(BaseModel):
 
 
         
-        
-@app.get("/login")        
-async def read_item(request: Request, id: str):
-    return templates.TemplateResponse("login.html", {"request": request, "id": id})
 
 @app.get("/")
 def root():
