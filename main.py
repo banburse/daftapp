@@ -50,6 +50,7 @@ async def artists_add(new_album: New_album, response: Response):
     await app.db_connection.commit()
     response.status_code = status.HTTP_201_CREATED
     return {
-        "artist_id": new_album.artist_id,
-        "artist_name": new_album.titile
+        "AlbumId": cursor.lastrowid,
+        "Title": new_album.title,
+        "ArtistId": new_album.artist_id
     }
