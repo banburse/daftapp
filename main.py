@@ -29,3 +29,26 @@ async def tracks_composers(response: Response, composer_name: str):
 		response.status_code = status.HTTP_404_NOT_FOUND
 		return {"detail":{"error":"Jakis error"}}
 	return tracks
+
+
+class New_album(BaseModel):
+    title: str
+    artist_id: int
+
+
+@app.post("/albums")
+async def artists_add(new_album: New_album):
+    app.db_connection.row_factory = None
+    cursor = await app.db_connection.execute("SELECT artist_id FROM tracks WHERE artist_id = ?", (new_album.artist_id, ))
+    result = await cursor.fetchall()
+    if result is None:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return {"detail": {"error": "Jakis error"}}
+    cursor = app.db_connection.execute(
+        f"INSERT INTO tracks (name) VALUES {new_album.title}",
+    )
+    app.db_connection.commit()
+    return {
+        "artist_id": new_album.artist_id,
+        "artist_name": new_album.titile
+    }
