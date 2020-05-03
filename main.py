@@ -39,7 +39,7 @@ class New_album(BaseModel):
 @app.post("/albums")
 async def artists_add(new_album: New_album):
     app.db_connection.row_factory = None
-    cursor = await app.db_connection.execute("SELECT artist_id FROM tracks WHERE artist_id = ?", (new_album.artist_id, ))
+    cursor = await app.db_connection.execute("SELECT ArtistId FROM artists WHERE ArtistId = ?", (new_album.artist_id, ))
     result = await cursor.fetchall()
     if result is None:
         response.status_code = status.HTTP_404_NOT_FOUND
