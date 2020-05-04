@@ -54,3 +54,37 @@ async def artists_add(new_album: New_album, response: Response):
         "Title": new_album.title,
         "ArtistId": new_album.artist_id
     }
+
+
+
+class Album(BaseModel):
+	title: str
+	artist_id: int
+
+@app.post("/albums")
+async def add_album(response: Response, album: Album):
+	app.db_connection.row_factory = None
+	cursor = await app.db_connection.execute("SELECT ArtistId FROM artists WHERE ArtistId = ?",
+		(album.artist_id, ))
+	result = await cursor.fetchone()
+	if result is None:
+		response.status_code = status.HTTP_404_NOT_FOUND
+		return {"detail":{"error":"Error"}}
+	cursor = await app.db_connection.execute("INSERT INTO albums (Title, ArtistId) VALUES (?, ?)",
+		(album.title, album.artist_id))
+	await app.db_connection.commit()
+	response.status_code = status.HTTP_201_CREATED
+	return {"AlbumId": cursor.lastrowid,
+		"Title": album.title, 
+		"ArtistId": album.artist_id}
+
+@app.get("/albums/{album_id}")
+async def tracks_composers(response: Response, album_id: int):
+	app.db_connection.row_factory = aiosqlite.Row
+	cursor = await app.db_connection.execute("SELECT * FROM albums WHERE AlbumId = ?",
+		(album_id, ))
+	album = await cursor.fetchone()
+	if album is None: # Not required by tests, but why not :)
+		response.status_code = status.HTTP_404_NOT_FOUND
+		return {"detail":{"error":"Album with that ID does not exist."}}
+	return album
