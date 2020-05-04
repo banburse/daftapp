@@ -36,24 +36,6 @@ class New_album(BaseModel):
     artist_id: int
 
 
-@app.post("/albums")
-async def artists_add(new_album: New_album, response: Response):
-    app.db_connection.row_factory = None
-    cursor = await app.db_connection.execute("SELECT ArtistId FROM artists WHERE ArtistId = ?", (new_album.artist_id, ))
-    result = await cursor.fetchall()
-    if result is None:
-        response.status_code = status.HTTP_404_NOT_FOUND
-        return {"detail": {"error": "Jakis error"}}
-    cursor = await app.db_connection.execute(
-        f"INSERT INTO tracks (name) VALUES {new_album.title}",
-    )
-    await app.db_connection.commit()
-    response.status_code = status.HTTP_201_CREATED
-    return {
-        "AlbumId": cursor.lastrowid,
-        "Title": new_album.title,
-        "ArtistId": new_album.artist_id
-    }
 
 
 
@@ -62,21 +44,21 @@ class Album(BaseModel):
 	artist_id: int
 
 @app.post("/albums")
-async def add_album(response: Response, album: Album):
+async def add_album(response: Response, new_album: New_album):
 	app.db_connection.row_factory = None
 	cursor = await app.db_connection.execute("SELECT ArtistId FROM artists WHERE ArtistId = ?",
-		(album.artist_id, ))
+		(new_album.artist_id, ))
 	result = await cursor.fetchone()
 	if result is None:
 		response.status_code = status.HTTP_404_NOT_FOUND
 		return {"detail":{"error":"Error"}}
 	cursor = await app.db_connection.execute("INSERT INTO albums (Title, ArtistId) VALUES (?, ?)",
-		(album.title, album.artist_id))
+		(new_album.title, new_album.artist_id))
 	await app.db_connection.commit()
 	response.status_code = status.HTTP_201_CREATED
 	return {"AlbumId": cursor.lastrowid,
-		"Title": album.title, 
-		"ArtistId": album.artist_id}
+		"Title": new_album.title, 
+		"ArtistId": new_album.artist_id}
 
 @app.get("/albums/{album_id}")
 async def tracks_composers(response: Response, album_id: int):
